@@ -17,8 +17,10 @@ public class Main {
     private static WebDriver browser;
     // Static inputs
     private static String driverPath = "c:/devtools/chromedriver.exe";
-    private static String user = "xxxxx";
-    private static String pwd = "yyyy";
+    private static String user = "xxx";
+    private static String pwd = "yyy";
+    private static By noDeliverySlotMessage = By.xpath("//*[@id='react-views-container']/div/div/div/div[1]/div/div/div/div[1]/div[2]/div/div/div/div[2]/div/img");
+
     // locators
     private static By loginButtonLandingPage = By.xpath("//*[@id=\"root\"]/div/div/header/div/div[2]/div/button");
     private static By userNameTextBox = By.id("nextgen-authenticate.all.log_in_email");
@@ -33,7 +35,6 @@ public class Main {
         browser = new ChromeDriver();
         browser.manage().window().maximize();
     }
-    //rmq-a26a37a6 - try classname
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -70,15 +71,18 @@ public class Main {
         // wait until checkout button is visible and the click on it
         fluentWait(gotoCHeckOutButton);
         browser.findElement(gotoCHeckOutButton).click();
+        // wait for few seconds for the page to load
+        Thread.sleep(10000);
 
         // refresh and check for slots every 30 seconds for 7 days and start beeping as soon as a slot is available
         for (int i = 0; i < 1440 * 7 * 2; i++) {
             try {
-                String noSlotsMessage = browser.findElements(By.cssSelector("div.rmq-28f9c13a.rmq-8e4e203")).get(0).findElement(By.tagName("img")).getAttribute("alt");
+//                String noSlotsMessage = browser.findElements(By.cssSelector("div.rmq-28f9c13a.rmq-8e4e203")).get(0).findElement(By.tagName("img")).getAttribute("alt");
+                String noSlotsMessage = browser.findElement(noDeliverySlotMessage).getAttribute("alt");
                 // check if the site says 'No delivery times available. If present, refresh the page after 30 seconds and check again
                 if (noSlotsMessage.contains("No delivery times available")) {
-                    Thread.sleep(30000);
                     browser.navigate().refresh();
+                    Thread.sleep(30000);
                     continue;
                 } else {
                     beeps(40, 1000);
