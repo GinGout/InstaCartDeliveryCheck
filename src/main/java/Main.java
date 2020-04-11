@@ -1,14 +1,12 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
 import java.awt.*;
 import java.util.Scanner;
-import java.util.function.Function;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -55,21 +53,21 @@ public class Main {
         browser.get("https://www.instacart.com/store/costco/storefront");
 
         // Click on Login Button
-        fluentWait(loginButtonLandingPage);
+        waitUntilElementDisplayed(loginButtonLandingPage);
         browser.findElement(loginButtonLandingPage).click();
 
         // Login
-        fluentWait(userNameTextBox);
+        waitUntilElementDisplayed(userNameTextBox);
         browser.findElement(userNameTextBox).sendKeys(user);
         browser.findElement(passwordTextBox).sendKeys(pwd);
         browser.findElement(loginButtonSignInPage).click();
 
         // wait until the next page is loaded and then click on Cart button
-        fluentWait(cartButton);
+        waitUntilElementDisplayed(cartButton);
         browser.findElement(cartButton).click();
 
         // wait until checkout button is visible and the click on it
-        fluentWait(gotoCHeckOutButton);
+        waitUntilElementDisplayed(gotoCHeckOutButton);
         browser.findElement(gotoCHeckOutButton).click();
         // wait for few seconds for the page to load
         Thread.sleep(10000);
@@ -109,17 +107,12 @@ public class Main {
         }
     }
 
-    private static boolean fluentWait(By locator) {
+    private static boolean waitUntilElementDisplayed(By locator) {
         Wait<WebDriver> wait = new FluentWait<WebDriver>(browser)
                 .withTimeout(30, SECONDS)
                 .pollingEvery(200, MILLISECONDS)
                 .ignoring(NoSuchElementException.class);
-
-        WebElement foo = wait.until(new Function<WebDriver, WebElement>() {
-            public WebElement apply(WebDriver driver) {
-                return driver.findElement(locator);
-            }
-        });
+        wait.until((browser) -> browser.findElement(locator).isDisplayed());
         return false;
     }
 }
