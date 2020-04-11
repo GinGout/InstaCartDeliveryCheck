@@ -1,11 +1,11 @@
 Pre-requisites 
-Gradle
-Java
-instacart account credentials
-Make sure to add items from only one store in the cart
-Add card details in advance
-Add delivery address in advance
-Make sure to TURN UP the system volume
+1. Gradle
+2. Java
+3. instacart account credentials
+4. Make sure to add items from only one store in the cart
+5. Add card details in advance
+6. Add delivery address in advance
+7. Make sure to TURN UP the system volume
 
 Steps:
 1. Check out the repo
