@@ -86,14 +86,19 @@ public class Main {
                     continue;
                 } else {
                     beeps(40, 1000);
-                    scanner.nextLine();
+                    // Just to avoid accidental key strokes
+                    for (int t = 0; t < 10; t++)
+                        scanner.nextLine();
                 }
             } catch (Exception e) {
                 beeps(40, 1000);
-                scanner.nextLine();
+                // Just to avoid accidental key strokes
+                for (int t = 0; t < 10; t++)
+                    scanner.nextLine();
             }
         }
-        browser.quit();
+        // Commenting this out just in case someone ends the program after the beeps are completed. This will make sure the browser is open even after the program exited, so that we can complete the purchase
+//        browser.quit();
     }
 
 
